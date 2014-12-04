@@ -29,9 +29,9 @@
     [super viewDidLoad];
     
     notificationStringArray = [[NSMutableArray alloc] init];
-    [self prepareForEdit];
     selectedInterval = 0;
-    [self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %ld Sec",selectedInterval]];
+    [self prepareForEdit];
+    //[self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %ld Sec",selectedInterval]];
     
     // Do any additional setup after loading the view.
 }
@@ -42,7 +42,7 @@
         
         self.selectedDateLabel.text     = [NSString stringWithFormat:@"%@",selectedGroupObj.notificationFireTime];
         
-        self.selectedIntervalLabel.text = [NSString stringWithFormat:@"%d",selectedGroupObj.repetationPeriod];
+        self.selectedIntervalLabel.text = [NSString stringWithFormat:@"%d Sec",selectedGroupObj.repetationPeriod];
         
         self.groupNameTextField.text    = selectedGroupObj.groupName;
         
@@ -125,7 +125,7 @@
 
 - (IBAction)selectIntervalButtonPressed:(id)sender {
     
-    datePickerView = [[UIView alloc ] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 400)];
+    datePickerView = [[UIView alloc ] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 400)];
     
     UIToolbar *toolbar = [[UIToolbar alloc] init];
     toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
@@ -164,7 +164,7 @@
 - (IBAction)selectDateButtonPressed:(id)sender {
     
     
-    datePickerView = [[UIView alloc ] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 400)];
+    datePickerView = [[UIView alloc ] initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 400)];
     
     UIToolbar *toolbar = [[UIToolbar alloc] init];
     toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
@@ -223,7 +223,7 @@
         
         result = [selectedDate compare:today]; // comparing two dates
         
-        if(result==NSOrderedAscending){
+        if(result==NSOrderedAscending&&self.editMode==NO){
             
             NSLog(@"datePicker.date is less");
             [self showWarningAlert:@"Can not select previous date"];
@@ -231,6 +231,7 @@
             
         }
         else{
+            
             
         }
     }
@@ -259,14 +260,18 @@
         
         NotificationManager *notificationManagerObj = [[NotificationManager alloc] init];
         [notificationManagerObj updateNotifications];
+        UIAlertView *alrt = [[UIAlertView alloc]initWithTitle: groupToAdd.groupName message:@"Successfully Updated Changes" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alrt show];
     }
     else {
         
         [[DatabaseClass sharedManager] saveGroup:groupToAdd];
-        
+
         NotificationManager *notificationManagerObj = [[NotificationManager alloc] init];
         [notificationManagerObj updateNotifications];
-        
+        UIAlertView *alrt = [[UIAlertView alloc]initWithTitle: groupToAdd.groupName message:@"Successfully Saved" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alrt show];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     
 }
