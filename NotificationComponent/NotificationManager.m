@@ -26,7 +26,7 @@
 
 -(UILocalNotification*)createNotification:(NotificationModel*)notParam {
 
-    
+    //  here we creating notification to schedule it
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     
     localNotification.fireDate  = notParam.notificationFireTime;
@@ -45,12 +45,14 @@
 
 -(NotificationModel*)createNotificationObject:(GroupsModel*)groupParam with:(long)notificationFireTime{
 
+    // this function create and provide all important information to create UILocalNotification
     NotificationModel *notificationObj   = (NotificationModel*)[groupParam.notificationMsgArray objectAtIndex:groupParam.nextNotificationPosition];
     
     NSString *notificationString         = notificationObj.notificationString;
     
     NSLog(@"notification Group %@ ",groupParam.groupName);
     
+    // crearting date from timeinterval , this date will be fire date of notification
     notificationObj.notificationFireTime =  [NSDate dateWithTimeIntervalSince1970:notificationFireTime];
     
     notificationObj.notificationString   = notificationString;
@@ -64,12 +66,15 @@
 
 -(void)scheduleNotificationsToFillTheBucket
 {
-
+    // here i check how much notification are schedule
     long numberOfScheduledLocalNotifications = [[[UIApplication sharedApplication] scheduledLocalNotifications] count];
+    // here i check how much notification fired
     int numberOfEmptyNotificationSlots = 64 - (int)numberOfScheduledLocalNotifications;
     
     NSLog(@"numberOfEmptyNotificationSlots %d",numberOfEmptyNotificationSlots);
    
+    
+    // n number of notification are re fill in uiapplication 64 notification bucket
     for(int i =0;i < numberOfEmptyNotificationSlots; i++) {
         
         		
@@ -103,7 +108,7 @@
     
     
     for (GroupsModel *tempGroupObj in groupArray) {
-        
+        // cehcking is user wants notification or not.
         if (tempGroupObj.isEnable == NO) {
             continue;
         }
@@ -181,6 +186,8 @@
     
    return [[DatabaseClass sharedManager] updateGroup:groupParam];
 }
+
+
 -(NSDate*)addTimeInCurrentDate:(NSTimeInterval)time{
 
     

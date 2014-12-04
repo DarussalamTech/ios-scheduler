@@ -12,6 +12,8 @@
 @implementation DatabaseClass
 @synthesize databaseObj;
 
+// singalton object of database
+
 + (id)sharedManager {
     static DatabaseClass *sharedMyManager = nil;
     static dispatch_once_t onceToken;
@@ -139,7 +141,7 @@
 
 
 
-
+// this function will delete all notification belong to a group then delete group its self
 -(BOOL)deleteGroupWithNotifications:(GroupsModel*)groupParam{
 
     BOOL isDelete ;
@@ -149,6 +151,7 @@
     return isDelete;
 }
 
+// this function will delete group
 -(BOOL)deleteGroup:(GroupsModel*)groupParam{
 
     [self.databaseObj open];
@@ -163,7 +166,8 @@
     return result;
     
 }
-
+// this function will select Group  and also select its notification
+// we are not using any query in query OR joins
 -(NSMutableArray*)selectAllGroupWithNotification{
 
     NSMutableArray *allGroupArray = [self selectAllGroup];
@@ -175,6 +179,7 @@
     return allGroupArray;
 }
 
+// this function will select ALL Group
 -(NSMutableArray*)selectAllGroup{
 
     [self.databaseObj open];
@@ -204,7 +209,7 @@
     return resultArray;
     
 }
-
+// this function will select Group
 -(GroupsModel*)selectGroup:(int)groupId{
     
     [self.databaseObj open];
@@ -231,6 +236,8 @@
 }
 
 #pragma mark NOTIFICATIONS CRUD methods
+
+// This function will select Notification
 -(NSMutableArray*)selectNotificationData:(int)groupIdParam{
 
     [self.databaseObj open];
@@ -252,6 +259,8 @@
     return notificationArray;
 
 }
+
+// This function will Save Notification
 -(void)saveNotificationString:(int )groupID withString:(NSString*)string{
 
     [self.databaseObj open];
@@ -260,7 +269,7 @@
     [self.databaseObj close];
 
 }
-
+// This function will delete Notification of givin groupID
 -(BOOL)deleteNotificaiton:(int)groupIdParam{
 
     [self.databaseObj open];
@@ -272,7 +281,7 @@
 
 }
 
-
+// WE are saving timeinterval in DB so this function ruturn as date of timeinterval
 -(NSDate*)longToDate:(long)sec{
     
     NSDate *dateFromDb;

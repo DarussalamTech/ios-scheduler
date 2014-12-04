@@ -23,7 +23,7 @@
 
     [super viewWillAppear:YES];
     
-    [self readData];
+    [self readAllGroups];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -154,12 +154,10 @@
         AGVC.editMode                 = NO;
     }
    
-    
-    
 }
 
 
--(void)readData{
+-(void)readAllGroups{
     
    groupArray = nil;
    groupArray = [[DatabaseClass sharedManager] selectAllGroupWithNotification];
