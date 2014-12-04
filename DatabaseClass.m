@@ -99,11 +99,11 @@
     return result;
 
 }
-
+// this function update the group notification start time
 -(BOOL)updateGroupStartTime:(GroupsModel*)groupParam{
     
     [self.databaseObj open];
-    
+    //yime and date save in DB in form of sec
     long timeInLong = [groupParam.notificationFireTime timeIntervalSince1970];
     
     NSString  *Query = [NSString stringWithFormat:@"UPDATE Groups set NOTIFICATION_START_TIME = %ld WHERE GROUP_ID = %d",timeInLong,groupParam.groupId];
@@ -116,7 +116,7 @@
     return result;
     
 }
-
+// this function search or check is givin group already added
 -(BOOL)isGroupFound:(GroupsModel*)groupParam{
     
     [self.databaseObj open];

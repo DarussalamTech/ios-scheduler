@@ -31,10 +31,13 @@
     notificationStringArray = [[NSMutableArray alloc] init];
     selectedInterval = 0;
     [self prepareForEdit];
+    
     //[self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %ld Sec",selectedInterval]];
     
-    // Do any additional setup after loading the view.
+    //Do any additional setup after loading the view.
 }
+
+
 
 -(void)prepareForEdit{
 
@@ -43,6 +46,8 @@
         self.selectedDateLabel.text     = [NSString stringWithFormat:@"%@",selectedGroupObj.notificationFireTime];
         
         self.selectedIntervalLabel.text = [NSString stringWithFormat:@"%d Sec",selectedGroupObj.repetationPeriod];
+        
+        selectedInterval                = selectedGroupObj.repetationPeriod;
         
         self.groupNameTextField.text    = selectedGroupObj.groupName;
         
@@ -54,7 +59,6 @@
     
         selectedDate = selectedGroupObj.notificationFireTime;
      
-        
     }
     
 }
@@ -187,7 +191,7 @@
 
 }
 -(void)cancelDatePicker{
-
+//
     [datePickerView removeFromSuperview];
 
 }
@@ -202,18 +206,17 @@
 }
 
 // when user save the changes this method will call in both add new group and edit group
-
 - (IBAction)SaveButtonPressed:(id)sender {
     
     NSLog(@"selected date  %@",selectedDate);
     
     if ([self.groupNameTextField.text length]==0) {
-        [self showWarningAlert:@"Group Name can not Be Empty"];
+        [self showWarningAlert:@"Group Name can not Be Empty" WithTitle:@"Warning"];
         return;
     }
     
     if (selectedDate == NULL) {
-        [self showWarningAlert:@"Please select Start Date"];
+        [self showWarningAlert:@"Please select Start Date" WithTitle:@"Warning"];
         return;
     }
     else{
@@ -226,7 +229,7 @@
         if(result==NSOrderedAscending&&self.editMode==NO){
             
             NSLog(@"datePicker.date is less");
-            [self showWarningAlert:@"Can not select previous date"];
+            [self showWarningAlert:@"Can not select previous date" WithTitle:@"Warning"];
             return;
             
         }
@@ -236,12 +239,12 @@
         }
     }
     if ([notificationStringArray count] == 0) {
-        [self showWarningAlert:@"Please add atleast one notification massege"];
+        [self showWarningAlert:@"Please add atleast one notification massege" WithTitle:@"Warning"];
         return;
     }
 
     if (selectedInterval <= 0) {
-        [self showWarningAlert:@"Please select notification interval more then 0"];
+        [self showWarningAlert:@"Please select notification interval more then 0" WithTitle:@"Warning"];
         return;
     }
     
@@ -259,26 +262,29 @@
         [[DatabaseClass sharedManager] updateGroup:groupToAdd];
         
         NotificationManager *notificationManagerObj = [[NotificationManager alloc] init];
+        
         [notificationManagerObj updateNotifications];
-        UIAlertView *alrt = [[UIAlertView alloc]initWithTitle: groupToAdd.groupName message:@"Successfully Updated Changes" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alrt show];
+        
+        [self showWarningAlert:@"Successfully Update" WithTitle:groupToAdd.groupName];
+        
+        
     }
     else {
         
         [[DatabaseClass sharedManager] saveGroup:groupToAdd];
 
         NotificationManager *notificationManagerObj = [[NotificationManager alloc] init];
+        
         [notificationManagerObj updateNotifications];
-        UIAlertView *alrt = [[UIAlertView alloc]initWithTitle: groupToAdd.groupName message:@"Successfully Saved" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alrt show];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self showWarningAlert:@"Successfully Saved" WithTitle:groupToAdd.groupName];
+        
     }
-    
 }
 
--(void)showWarningAlert:(NSString*)msg{
+-(void)showWarningAlert:(NSString*)msg WithTitle:(NSString*)titleParam{
 
-    UIAlertView *dateAlert = [[UIAlertView alloc] initWithTitle:@"Warning" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *dateAlert = [[UIAlertView alloc] initWithTitle:titleParam message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     dateAlert.tag = 123456;
     [dateAlert show];
 
