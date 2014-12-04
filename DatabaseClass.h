@@ -15,9 +15,8 @@
 
 
 @interface DatabaseClass : NSObject
-
 {
-
+    
 }
 
 @property (nonatomic,strong) FMDatabase *databaseObj;
@@ -31,7 +30,6 @@
 -(GroupsModel*)selectGroup:(int)groupId;
 -(NSMutableArray*)selectNotificationData:(int)groupIdParam;
 -(BOOL)updateGroupStartTime:(GroupsModel*)groupParam;
-
 -(BOOL)deleteGroupWithNotifications:(GroupsModel*)groupParam;
 
 @end

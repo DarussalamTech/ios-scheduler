@@ -11,7 +11,8 @@
 @interface NotificationModel : NSObject
 
 @property(nonatomic) int notificationId;
-@property(nonatomic,strong) NSString * notificationString;
 @property(nonatomic) int groupId;
 @property(nonatomic,strong)NSDate *notificationFireTime; 
+@property(nonatomic,strong) NSString * notificationString;
+
 @end

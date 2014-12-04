@@ -17,7 +17,7 @@
     UIDatePicker *datePicker;
     UIPickerView *intervalPicker;
     UIView *datePickerView;
-    int selectedInterval;
+    long selectedInterval;
     NSMutableArray *notificationStringArray;
     NSDate *selectedDate;
     

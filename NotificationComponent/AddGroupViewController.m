@@ -14,6 +14,7 @@
 
 @implementation AddGroupViewController
 @synthesize selectedGroupObj;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,21 +28,20 @@
 {
     [super viewDidLoad];
     
-    
-    
     notificationStringArray = [[NSMutableArray alloc] init];
     [self prepareForEdit];
     selectedInterval = 0;
-    [self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %d Sec",selectedInterval]];
+    [self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %ld Sec",selectedInterval]];
     
     // Do any additional setup after loading the view.
 }
+
 -(void)prepareForEdit{
 
     if (self.editMode == YES) {
         
-
         self.selectedDateLabel.text     = [NSString stringWithFormat:@"%@",selectedGroupObj.notificationFireTime];
+        
         self.selectedIntervalLabel.text = [NSString stringWithFormat:@"%d",selectedGroupObj.repetationPeriod];
         
         self.groupNameTextField.text    = selectedGroupObj.groupName;
@@ -64,31 +64,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
     
     return 1;
 }
+
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     return 60;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%d Sec", row];
+    return [NSString stringWithFormat:@"%ld Sec", (long)row];
 }
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
 
     selectedInterval = row;
-    NSLog(@"selected value %d",row);
+    
+    NSLog(@"selected value %ld",(long)row);
 
 }
 
@@ -98,7 +91,6 @@
     UIAlertView *alertViewChangeName = [[UIAlertView alloc] initWithTitle:@"Enter Notification String" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
     
     alertViewChangeName.alertViewStyle=UIAlertViewStylePlainTextInput;
-
 
     [alertViewChangeName show];
     
@@ -123,8 +115,6 @@
             NSString *combineText = [editedGroupName stringByAppendingString:[NSString stringWithFormat:@",%@",previoustText]];
             
             [self.notificationMsgTextView setText:combineText];
-
-
 
         }
         
@@ -160,8 +150,8 @@
 }
 -(void)doneIntervalPicker{
  
-    NSLog(@"selectedInterval %d",selectedInterval);
-    [self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %d Sec",selectedInterval]];
+    NSLog(@"selectedInterval %ld",selectedInterval);
+    [self.selectedIntervalLabel setText:[NSString stringWithFormat:@" %ld Sec",selectedInterval]];
     [datePickerView removeFromSuperview];
 
 }
@@ -210,10 +200,12 @@
     
     
 }
+
+// when user save the changes this method will call in both add new group and edit group
+
 - (IBAction)SaveButtonPressed:(id)sender {
     
     NSLog(@"selected date  %@",selectedDate);
-    
     
     if ([self.groupNameTextField.text length]==0) {
         [self showWarningAlert:@"Group Name can not Be Empty"];
@@ -242,7 +234,6 @@
             
         }
     }
-   
     if ([notificationStringArray count] == 0) {
         [self showWarningAlert:@"Please add atleast one notification massege"];
         return;
@@ -255,12 +246,12 @@
     
     GroupsModel *groupToAdd             = [[GroupsModel alloc] init];
     groupToAdd.notificationFireTime     = selectedDate;
-    groupToAdd.repetationPeriod         = selectedInterval;
+    groupToAdd.repetationPeriod         = (int)selectedInterval;
     groupToAdd.groupName                = self.groupNameTextField.text;
     groupToAdd.isEnable                 = self.notificationEnableSwitch.isOn;
     groupToAdd.notificationMsgArray     = notificationStringArray;
     groupToAdd.groupId                  = selectedGroupObj.groupId;
-    groupToAdd.notificationSize         = [notificationStringArray count];
+    groupToAdd.notificationSize         = (int)[notificationStringArray count];
     
     if (self.editMode== YES) {
         
@@ -278,10 +269,8 @@
         
     }
     
-    
-    
-    
 }
+
 -(void)showWarningAlert:(NSString*)msg{
 
     UIAlertView *dateAlert = [[UIAlertView alloc] initWithTitle:@"Warning" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -289,6 +278,7 @@
     [dateAlert show];
 
 }
+
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     
     [textField resignFirstResponder];
@@ -300,7 +290,6 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd hh:mm:ss Z"];
     NSDate *dateFromDb = [dateFormat dateFromString:dateString];
-    //double timeinterval = [date timeIntervalSince1970];
     NSLog(@"date %@",dateFromDb);
     return dateFromDb;
 }

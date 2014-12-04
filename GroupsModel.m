@@ -15,7 +15,7 @@
 
     self = [super init];
     if (self) {
-        //[self assignValues:(dictParam)];
+        // Custom initialization
     }
     
     return  self;

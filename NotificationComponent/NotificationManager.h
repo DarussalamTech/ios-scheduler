@@ -25,9 +25,7 @@
 @property(nonatomic) int lastIndex;
 @property(nonatomic,strong) NSDate *lastNotificationDate;
 
--(void)scheduleNotification;
-
--(void )popuLocallateNotification;
+-(void)scheduleNotificationsToFillTheBucket;
 
 -(void)updateNotifications;
 @end

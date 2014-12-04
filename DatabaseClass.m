@@ -30,7 +30,6 @@
     }
     
     return self;
-    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -38,11 +37,11 @@
 {
     NSArray *Paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *DocumentDir = [Paths objectAtIndex:0];
-   // NSLog(@" dir = %@",DocumentDir);
     return [DocumentDir stringByAppendingPathComponent:DataBaseName];
     
 }
 
+// This method copy the data base file
 - (void)CopyDatabase
 {
     BOOL success;
@@ -63,11 +62,8 @@
     }
 }
 
-//NEXT_NOTIFICATION_POSITION
-//LOOP_COUNT
-//NOTIFICATION_SIZE
+#pragma mark GROUP CRUD methods
 
-#pragma mark User CRUD methods
 -(BOOL)saveGroup:(GroupsModel*)groupParam{
 
     [self.databaseObj open];
@@ -82,10 +78,8 @@
     for (NotificationModel *notificationObj in groupParam.notificationMsgArray) {
         [self saveNotificationString:groupId withString:notificationObj.notificationString];
     }
-    
 
     return result;
-    
 }
 
 -(BOOL)updateGroup:(GroupsModel*)groupParam{
@@ -103,7 +97,6 @@
     return result;
 
 }
-
 
 -(BOOL)updateGroupStartTime:(GroupsModel*)groupParam{
     
@@ -141,11 +134,10 @@
     }
     
     return isResultFound;
-
-    
-
     
 }
+
+
 
 
 -(BOOL)deleteGroupWithNotifications:(GroupsModel*)groupParam{
@@ -238,6 +230,7 @@
     
 }
 
+#pragma mark NOTIFICATIONS CRUD methods
 -(NSMutableArray*)selectNotificationData:(int)groupIdParam{
 
     [self.databaseObj open];
@@ -278,6 +271,8 @@
     return result;
 
 }
+
+
 -(NSDate*)longToDate:(long)sec{
     
     NSDate *dateFromDb;

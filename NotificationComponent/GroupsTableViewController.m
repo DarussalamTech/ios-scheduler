@@ -60,25 +60,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    
-    selectedIndex = indexPath.row;
+    // here i navigate to edit group page
+    selectedIndex = (int)indexPath.row;
     
     AddGroupViewController *AGVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ADDVIEW"];
     
     GroupsModel*groupObj = (GroupsModel*)[groupArray objectAtIndex:selectedIndex];
     
     AGVC.selectedGroupObj         = groupObj;
+    
     AGVC.editMode                 = YES;
     
     [self.navigationController pushViewController:AGVC animated:YES];
-
-    
-//    UIAlertView *alertViewChangeName = [[UIAlertView alloc] initWithTitle:@"Edit Group Name" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
-//    
-//    alertViewChangeName.alertViewStyle=UIAlertViewStylePlainTextInput;
-//    UITextField *textInput = [alertViewChangeName textFieldAtIndex:0];
-//    [textInput setText:groupObj.groupName];
-//    [alertViewChangeName show];
 
 }
 
@@ -89,11 +82,14 @@
         NSString *editedGroupName = [[alertView textFieldAtIndex:0] text];
         if (editedGroupName.length >0) {
             
-             GroupsModel*groupObj = (GroupsModel*)[groupArray objectAtIndex:selectedIndex];
+            GroupsModel*groupObj = (GroupsModel*)[groupArray objectAtIndex:selectedIndex];
             
-             groupObj.groupName   = editedGroupName;
+            groupObj.groupName   = editedGroupName;
+            
             [groupArray replaceObjectAtIndex:selectedIndex withObject:groupObj];
+            
             [[DatabaseClass sharedManager] updateGroup:groupObj];
+            
             [self.tableView reloadData];
         }
         

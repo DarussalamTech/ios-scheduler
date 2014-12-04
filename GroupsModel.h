@@ -15,7 +15,6 @@
 -(id)init;
 
 
-
 @property(nonatomic,strong) NSMutableArray *notificationMsgArray;
 @property(nonatomic,strong) NSString *notificationString;
 @property(nonatomic,strong) NSString *groupName;

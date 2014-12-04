@@ -33,19 +33,11 @@
 
     localNotification.alertBody = [NSString stringWithFormat:@"%@ for Group %d",notParam.notificationString,notParam.groupId ];
     
-   // NSDictionary * infoDict = [[NSDictionary alloc] init];
-    
-    //[infoDict setValue:notParam  forKey:@"NOTIFICATIONKEY"];
-    
-    //localNotification.userInfo = infoDict;
-    
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     
     localNotification.soundName= UILocalNotificationDefaultSoundName;
     
     NSLog(@"fire date  %@",localNotification.fireDate);
-    
-    //[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
     return localNotification;
     
@@ -53,8 +45,6 @@
 
 -(NotificationModel*)createNotificationObject:(GroupsModel*)groupParam with:(long)notificationFireTime{
 
-    
-    
     NotificationModel *notificationObj   = (NotificationModel*)[groupParam.notificationMsgArray objectAtIndex:groupParam.nextNotificationPosition];
     
     NSString *notificationString         = notificationObj.notificationString;
@@ -71,31 +61,18 @@
 }
 
 
--(int)selectRandomNotification:(NSMutableArray *)arrayOfData{
-    int index ;
-    index = arc4random_uniform ([arrayOfData count]);
-    return index;
-}
 
-
--(void)popuLocallateNotification{
-
-}
-
-
-
-
--(void)scheduleNotification
+-(void)scheduleNotificationsToFillTheBucket
 {
 
     long numberOfScheduledLocalNotifications = [[[UIApplication sharedApplication] scheduledLocalNotifications] count];
-    int numberOfEmptyNotificationSlots = 64 - numberOfScheduledLocalNotifications;
+    int numberOfEmptyNotificationSlots = 64 - (int)numberOfScheduledLocalNotifications;
     
     NSLog(@"numberOfEmptyNotificationSlots %d",numberOfEmptyNotificationSlots);
    
     for(int i =0;i < numberOfEmptyNotificationSlots; i++) {
         
-        
+        		
        UILocalNotification *localNotification = [self getSoonestLocalNotifiation];
         if (localNotification != nil) {
             
@@ -103,7 +80,7 @@
         }
         else{
             
-            // If ve have not any notification recived from getSoonestLocalNotifiation
+            // If ve have not received any notification from getSoonestLocalNotifiation then it means all notifications heve been used and there is no more to be added
             
             break;
         
@@ -111,56 +88,9 @@
         
     }
     
-    NSLog(@" scheduled notification %d",[[[UIApplication sharedApplication] scheduledLocalNotifications] count]);
+    NSLog(@" scheduled notification %lu",(unsigned long)[[[UIApplication sharedApplication] scheduledLocalNotifications] count]);
 }
 
-
-
--(void)rescheduleNotifications{
-
-
-    long numberOfScheduledLocalNotifications = [[[UIApplication sharedApplication] scheduledLocalNotifications] count];
-    int numberOfEmptyNotificationSlots = 64 - numberOfScheduledLocalNotifications;
-    
-    for(int i =0;i<numberOfEmptyNotificationSlots;i++) {
-        
-        [allNotificationArray objectAtIndex:self.lastIndex+i];
-        
-        //[[UIApplication sharedApplication] scheduleLocalNotification:];
-        
-    }
-
-
-}
-
--(void)sortNotificationArray{
-
-    NSSortDescriptor *sortDes = [NSSortDescriptor sortDescriptorWithKey:@"fireDate" ascending:YES];
-    
-    for (UILocalNotification *notificationObj in allNotificationArray) {
-           //  NSLog(@"notification %@ data %@",notificationObj.fireDate ,notificationObj.alertBody);
-    }
-    
-    [allNotificationArray sortUsingDescriptors:@[sortDes]];
-    
-    for (UILocalNotification *notificationObj in allNotificationArray) {
-       // NSLog(@" sorted notification %@ data %@",notificationObj.fireDate ,notificationObj.alertBody);
-    }
-    
-    
-}
-
-
--(void)updateDate{
-
-    
-//    for (UILocalNotification *tempNotification in  allNotificationArray) {
-//        tempNotification.fireDate = 
-//    }
-//    
-//    [allNotificationArray objectAtIndex:self.lastIndex+i];
-
-}
 
 -(UILocalNotification*)getSoonestLocalNotifiation {
     
@@ -195,7 +125,6 @@
             
         }
         
-        
         long tempFireTime  = [self getNextLocalNotificationFireTime:tempGroupObj];
         
         if (selectedFireTime > tempFireTime) {
@@ -208,12 +137,6 @@
     if (selectedTempGroup == nil) {
          return nil;
     }
-    // TODO: increment position and loop count accordingly in the database before returning the notifications object;
-    
-    
-    
-    
-
     
     UILocalNotification *notification = [self createNotification:[self createNotificationObject:selectedTempGroup  with:(long)selectedFireTime]];
     
@@ -262,7 +185,7 @@
 
     
     NSDate *dateEightHoursAhead = selectedGroup.notificationFireTime;
-   // NSLog(@"old date %@",dateEightHoursAhead);
+    //NSLog(@"old date %@",dateEightHoursAhead);
     NSDate *nextNotificationDate = [dateEightHoursAhead dateByAddingTimeInterval:time];
     //NSLog(@"new date %@",nextNotificationDate);
     return nextNotificationDate;
@@ -312,7 +235,7 @@
         [[DatabaseClass sharedManager] updateGroup:groupObj];
     }
     
-    [self scheduleNotification];
+    [self scheduleNotificationsToFillTheBucket];
 }
 
 

@@ -15,7 +15,6 @@
 		4964DEB31A26F9C500D93FDF /* NotificationComponentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4964DEB21A26F9C500D93FDF /* NotificationComponentTests.m */; };
 		4964DEBF1A26FAF800D93FDF /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4964DEBE1A26FAF800D93FDF /* NotificationManager.m */; };
 		4964DEC31A26FB3000D93FDF /* GroupsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4964DEC21A26FB3000D93FDF /* GroupsModel.m */; };
-		4964DEC81A272A7500D93FDF /* mylist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4964DEC71A272A7500D93FDF /* mylist.plist */; };
 		4964DECE1A274B7800D93FDF /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4964DECD1A274B7800D93FDF /* GroupsTableViewController.m */; };
 		49FBBFC61A2896AA0017AE35 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FBBFBC1A2896AA0017AE35 /* FMDatabase.m */; };
 		49FBBFC71A2896AA0017AE35 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FBBFBE1A2896AA0017AE35 /* FMDatabaseAdditions.m */; };
@@ -55,7 +54,6 @@
 		4964DEBE1A26FAF800D93FDF /* NotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationManager.m; path = NotificationComponent/NotificationManager.m; sourceTree = "<group>"; };
 		4964DEC11A26FB3000D93FDF /* GroupsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsModel.h; sourceTree = "<group>"; };
 		4964DEC21A26FB3000D93FDF /* GroupsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsModel.m; sourceTree = "<group>"; };
-		4964DEC71A272A7500D93FDF /* mylist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mylist.plist; sourceTree = "<group>"; };
 		4964DECC1A274B7800D93FDF /* GroupsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsTableViewController.h; sourceTree = "<group>"; };
 		4964DECD1A274B7800D93FDF /* GroupsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsTableViewController.m; sourceTree = "<group>"; };
 		49FBBFBB1A2896AA0017AE35 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				49FBBFBA1A2896AA0017AE35 /* fmdb */,
-				4964DEC71A272A7500D93FDF /* mylist.plist */,
 				4964DE971A26F9C500D93FDF /* Info.plist */,
 				4964DE981A26F9C500D93FDF /* main.m */,
 				49FBBFCB1A2897A60017AE35 /* Notification.sqlite */,
@@ -286,7 +283,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4964DEC81A272A7500D93FDF /* mylist.plist in Resources */,
 				4964DEA21A26F9C500D93FDF /* Main.storyboard in Resources */,
 				4964DEA71A26F9C500D93FDF /* LaunchScreen.xib in Resources */,
 				49FBBFCC1A2897A60017AE35 /* Notification.sqlite in Resources */,
@@ -473,6 +469,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = NotificationComponentTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NotificationComponent.app/NotificationComponent";
@@ -488,6 +485,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = NotificationComponentTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NotificationComponent.app/NotificationComponent";
