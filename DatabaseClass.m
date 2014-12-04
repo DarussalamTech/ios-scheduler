@@ -134,9 +134,7 @@
         isResultFound = YES;
         
     }
-    
     return isResultFound;
-    
 }
 
 
